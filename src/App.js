@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
+import { ChakraProvider, Container } from '@chakra-ui/react'
+import { ColorModeScript } from '@chakra-ui/react'
+import theme from './theme/theme'
 
-// Components
-import Navigation from './components/Navigation';
-import Search from './components/Search';
-import Home from './components/Home';
+
+
+
 
 // ABIs
 import RealEstate from './abis/RealEstate.json'
@@ -12,19 +14,46 @@ import Escrow from './abis/Escrow.json'
 
 // Config
 import config from './config.json';
+import { useLoadBlockChainData } from './hooks/load-block-chain-data';
+import { store } from './store';
+import { SellerContainer } from './containers/Seller';
+import { BuyerContainer } from './containers/Buyer';
+import { InspectorContainer } from './containers/Inspector';
+import { Nav } from './containers/Navbar';
 
 function App() {
+  
+  const {user}  = store(state => ({
+    user: state.user
+  }));
+  useLoadBlockChainData();
+
+  
+
 
   return (
-    <div>
+   <ChakraProvider theme={theme}>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+      
+      <Nav /> 
+      <Container maxW='1600px'>
+        
+       {
+         user.userType === 'SELLER' && <SellerContainer />
+       }
 
-      <div className='cards__section'>
+       {
+          user.userType === 'BUYER' && <BuyerContainer />
+       }
 
-        <h3>Welcome to Millow</h3>
+       {
+          user.userType === 'INSPECTOR' && <InspectorContainer />
+       }
 
-      </div>
+          
+      </Container>
+    </ChakraProvider>
 
-    </div>
   );
 }
 

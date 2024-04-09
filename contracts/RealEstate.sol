@@ -5,10 +5,6 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 import {ERC721URIStorage} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-
- 
-
-
 // This needs to create a NFT contract, so it should be a ERC721 contract.
 contract RealEstate is ERC721URIStorage {
   using Counters for Counters.Counter;
